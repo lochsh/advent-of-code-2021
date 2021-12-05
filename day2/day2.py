@@ -4,7 +4,7 @@ import operator
 import numpy as np
 
 
-def calculate_position():
+def calculate_position(course):
     units = {
         "forward": np.array([1, 0]),
         "up": np.array([0, -1]),
@@ -15,17 +15,13 @@ def calculate_position():
         direction, quantity = string.split()
         return units[direction] * int(quantity)
 
-    with open("input", "r") as f:
-        return functools.reduce(
-            operator.add,
-            map(get_position_change, f.readlines()),
-        )
+    return functools.reduce(
+        operator.add,
+        map(get_position_change, course),
+    )
 
 
-def calculate_position_with_aim():
-    with open("input", "r") as f:
-        course = f.readlines()
-
+def calculate_position_with_aim(course):
     aim = 0
     depth = 0
     horiz = 0
@@ -45,7 +41,10 @@ def calculate_position_with_aim():
 
 
 if __name__ == "__main__":
-    horiz, depth = calculate_position()
+    with open("input", "r") as f:
+        course = f.readlines()
+
+    horiz, depth = calculate_position(course)
     print(horiz * depth)
-    new_horiz, new_depth = calculate_position_with_aim()
+    new_horiz, new_depth = calculate_position_with_aim(course)
     print(new_horiz * new_depth)
